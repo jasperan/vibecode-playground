@@ -16,7 +16,14 @@ import {
   X,
   Settings,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
@@ -53,13 +60,16 @@ import { ConfirmationDialog } from "@/features/playground/components/dialogs/con
 const MainPlaygroundPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
+  const [selectedModel, setSelectedModel] = useState("codellama:latest");
+  const models = ["codellama:latest", "deepseek-coder:6.7b"];
+
   // UI state
   const [confirmationDialog, setConfirmationDialog] = useState({
     isOpen: false,
     title: "",
     description: "",
-    onConfirm: () => {},
-    onCancel: () => {},
+    onConfirm: () => { },
+    onCancel: () => { },
   });
 
   const [isPreviewVisible, setIsPreviewVisible] = useState(true);
@@ -108,7 +118,7 @@ const MainPlaygroundPage: React.FC = () => {
   React.useEffect(() => {
     if (templateData && !openFiles.length) {
 
-      
+
       setTemplateData(templateData);
     }
   }, [templateData, setTemplateData, openFiles.length]);
@@ -242,11 +252,11 @@ const MainPlaygroundPage: React.FC = () => {
         const updatedOpenFiles = openFiles.map((f) =>
           f.id === targetFileId
             ? {
-                ...f,
-                content: fileToSave.content,
-                originalContent: fileToSave.content,
-                hasUnsavedChanges: false,
-              }
+              ...f,
+              content: fileToSave.content,
+              originalContent: fileToSave.content,
+              hasUnsavedChanges: false,
+            }
             : f
         );
         setOpenFiles(updatedOpenFiles);
@@ -425,6 +435,19 @@ const MainPlaygroundPage: React.FC = () => {
                   suggestionLoading={aiSuggestions.isLoading}
                 />
 
+                <Select value={selectedModel} onValueChange={setSelectedModel}>
+                  <SelectTrigger className="w-[180px] h-8">
+                    <SelectValue placeholder="Select Model" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {models.map((model) => (
+                      <SelectItem key={model} value={model}>
+                        {model}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button size="sm" variant="outline">
@@ -523,7 +546,7 @@ const MainPlaygroundPage: React.FC = () => {
                           aiSuggestions.rejectSuggestion(editor)
                         }
                         onTriggerSuggestion={(type, editor) =>
-                          aiSuggestions.fetchSuggestion(type, editor)
+                          aiSuggestions.fetchSuggestion(type, editor, selectedModel)
                         }
                       />
                     </ResizablePanel>
@@ -561,14 +584,14 @@ const MainPlaygroundPage: React.FC = () => {
           </div>
         </SidebarInset>
 
-      <ConfirmationDialog
-      isOpen={confirmationDialog.isOpen}
-      title={confirmationDialog.title}
-      description={confirmationDialog.description}
-      onConfirm={confirmationDialog.onConfirm}
-      onCancel={confirmationDialog.onCancel}
-      setIsOpen={(open) => setConfirmationDialog((prev) => ({ ...prev, isOpen: open }))}
-      />
+        <ConfirmationDialog
+          isOpen={confirmationDialog.isOpen}
+          title={confirmationDialog.title}
+          description={confirmationDialog.description}
+          onConfirm={confirmationDialog.onConfirm}
+          onCancel={confirmationDialog.onCancel}
+          setIsOpen={(open) => setConfirmationDialog((prev) => ({ ...prev, isOpen: open }))}
+        />
       </>
     </TooltipProvider>
   );

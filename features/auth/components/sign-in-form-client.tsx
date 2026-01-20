@@ -11,14 +11,14 @@ import {
 import { Chrome, Github } from "lucide-react";
 import { signIn } from "@/auth";
 
-async function handleGoogleSignIn(){
-"use server"
-await signIn("google")
+async function handleGoogleSignIn() {
+  "use server"
+  await signIn("google")
 }
 
-async function handleGithubSignIn(){
-"use server"
-await signIn("github")
+async function handleGithubSignIn() {
+  "use server"
+  await signIn("github")
 }
 
 const SignInFormClient = () => {
@@ -44,6 +44,17 @@ const SignInFormClient = () => {
           <Button type="submit" variant={"outline"} className="w-full">
             <Github className="mr-2 h-4 w-4" />
             <span>Sign in with github</span>
+          </Button>
+        </form>
+        <form
+          action={async () => {
+            "use server";
+            await signIn("local");
+          }}
+        >
+          <Button type="submit" variant={"outline"} className="w-full">
+            <span className="mr-2 h-4 w-4">💻</span>
+            <span>Continue as Local Developer</span>
           </Button>
         </form>
       </CardContent>

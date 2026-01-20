@@ -10,7 +10,7 @@ interface AISuggestionsState {
 
 interface UseAISuggestionsReturn extends AISuggestionsState {
   toggleEnabled: () => void;
-  fetchSuggestion: (type: string, editor: any) => Promise<void>;
+  fetchSuggestion: (type: string, editor: any, model?: string) => Promise<void>;
   acceptSuggestion: (editor: any, monaco: any) => void;
   rejectSuggestion: (editor: any) => void;
   clearSuggestion: (editor: any) => void;
@@ -30,7 +30,7 @@ export const useAISuggestions = (): UseAISuggestionsReturn => {
     setState((prev) => ({ ...prev, isEnabled: !prev.isEnabled }));
   }, []);
 
-  const fetchSuggestion = useCallback(async (type: string, editor: any) => {
+  const fetchSuggestion = useCallback(async (type: string, editor: any, model: string = "codellama:latest") => {
     console.log("Fetching AI suggestion...");
     console.log("AI Suggestions Enabled:", state.isEnabled);
     console.log("Editor Instance Available:", !!editor);
@@ -47,10 +47,10 @@ export const useAISuggestions = (): UseAISuggestionsReturn => {
         return currentState;
       }
 
-      const model = editor.getModel();
+      const editorModel = editor.getModel();
       const cursorPosition = editor.getPosition();
 
-      if (!model || !cursorPosition) {
+      if (!editorModel || !cursorPosition) {
         console.warn("Editor model or cursor position is not available.");
         return currentState;
       }
@@ -62,10 +62,11 @@ export const useAISuggestions = (): UseAISuggestionsReturn => {
       (async () => {
         try {
           const payload = {
-            fileContent: model.getValue(),
+            fileContent: editorModel.getValue(),
             cursorLine: cursorPosition.lineNumber - 1,
             cursorColumn: cursorPosition.column - 1,
             suggestionType: type,
+            model,
           };
           console.log("Request payload:", payload);
 

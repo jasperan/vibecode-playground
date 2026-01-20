@@ -42,7 +42,7 @@
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/vibecode-editor.git
+git clone https://github.com/jasperan/vibecode-editor.git
 cd vibecode-editor
 ````
 

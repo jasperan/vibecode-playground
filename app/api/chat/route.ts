@@ -14,7 +14,7 @@ interface EnhancePromptRequest {
   }
 }
 
-async function generateAIResponse(messages: ChatMessage[]) {
+async function generateAIResponse(messages: ChatMessage[], model: string = "codellama:latest") {
   const systemPrompt = `You are an expert AI coding assistant. You help developers with:
 - Code explanations and debugging
 - Best practices and architecture advice
@@ -39,7 +39,7 @@ Keep responses concise but comprehensive. Use code blocks with language specific
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "codellama:latest",
+        model,
         prompt,
         stream: false,
         options: {
@@ -141,13 +141,13 @@ export async function POST(req: NextRequest) {
 
     const validHistory = Array.isArray(history)
       ? history.filter(
-          (msg: any) =>
-            msg &&
-            typeof msg === "object" &&
-            typeof msg.role === "string" &&
-            typeof msg.content === "string" &&
-            ["user", "assistant"].includes(msg.role),
-        )
+        (msg: any) =>
+          msg &&
+          typeof msg === "object" &&
+          typeof msg.role === "string" &&
+          typeof msg.content === "string" &&
+          ["user", "assistant"].includes(msg.role),
+      )
       : []
 
     const recentHistory = validHistory.slice(-10)

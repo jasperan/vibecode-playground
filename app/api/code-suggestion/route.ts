@@ -6,6 +6,7 @@ interface CodeSuggestionRequest {
   cursorColumn: number
   suggestionType: string
   fileName?: string
+  model?: string
 }
 
 interface CodeContext {
@@ -24,7 +25,7 @@ interface CodeContext {
 export async function POST(request: NextRequest) {
   try {
     const body: CodeSuggestionRequest = await request.json()
-    const { fileContent, cursorLine, cursorColumn, suggestionType, fileName } = body
+    const { fileContent, cursorLine, cursorColumn, suggestionType, fileName, model } = body
 
     // Validate input
     if (!fileContent || cursorLine < 0 || cursorColumn < 0 || !suggestionType) {
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
     const prompt = buildPrompt(context, suggestionType)
 
     // Call AI service (replace with your AI service)
-    const suggestion = await generateSuggestion(prompt)
+    const suggestion = await generateSuggestion(prompt, model)
 
     return NextResponse.json({
       suggestion,
@@ -127,14 +128,14 @@ Generate suggestion:`
 /**
  * Generate suggestion using AI service
  */
-async function generateSuggestion(prompt: string): Promise<string> {
+async function generateSuggestion(prompt: string, model: string = "codellama:latest"): Promise<string> {
   try {
     // Replace this with your actual AI service call
     const response = await fetch("http://localhost:11434/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "codellama:latest",
+        model,
         prompt,
         stream: false,
         options: {

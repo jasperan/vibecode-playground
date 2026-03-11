@@ -6,6 +6,31 @@
 
 ---
 
+## Installation
+
+<!-- one-command-install -->
+> **One-command install** — clone, configure, and run in a single step:
+>
+> ```bash
+> curl -fsSL https://raw.githubusercontent.com/jasperan/vibecode-playground/master/install.sh | bash
+> ```
+>
+> <details><summary>Advanced options</summary>
+>
+> Override install location:
+> ```bash
+> PROJECT_DIR=/opt/myapp curl -fsSL https://raw.githubusercontent.com/jasperan/vibecode-playground/master/install.sh | bash
+> ```
+>
+> Or install manually:
+> ```bash
+> git clone https://github.com/jasperan/vibecode-playground.git
+> cd vibecode-playground
+> # See below for setup instructions
+> ```
+> </details>
+
+
 ## 🚀 Features
 
 - 🔐 **OAuth Login with NextAuth** – Supports Google & GitHub login.
@@ -146,4 +171,3 @@ This project is licensed under the [MIT License](LICENSE).
 * [NextAuth.js](https://next-auth.js.org/)
 
 ```
-

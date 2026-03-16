@@ -67,8 +67,8 @@
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/jasperan/vibecode-editor.git
-cd vibecode-editor
+git clone https://github.com/jasperan/vibecode-playground.git
+cd vibecode-playground
 ````
 
 ### 2. Install Dependencies

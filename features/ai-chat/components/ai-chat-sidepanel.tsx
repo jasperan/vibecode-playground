@@ -404,48 +404,13 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
     return "text";
   };
 
-  const detectFileType = (
-    fileName: string,
-    content: string
-  ): FileAttachment["type"] => {
-    // Only allow code files
-    const ext = fileName.split(".").pop()?.toLowerCase();
-    if (
-      [
-        "js",
-        "jsx",
-        "ts",
-        "tsx",
-        "py",
-        "java",
-        "cpp",
-        "c",
-        "html",
-        "css",
-        "scss",
-        "json",
-        "xml",
-        "yaml",
-        "sql",
-        "sh",
-        "php",
-        "rb",
-        "go",
-        "rs",
-      ].includes(ext || "")
-    )
-      return "code";
-    return "code"; // fallback: treat everything as code
-  };
-
   const addFileAttachment = (
     fileName: string,
     content: string,
     mimeType?: string
   ) => {
     const language = detectLanguage(fileName, content);
-    const type = detectFileType(fileName, content);
-    if (type !== "code") return; // Only allow code files
+    const type: FileAttachment["type"] = "code";
     const newFile: FileAttachment = {
       id: Date.now().toString(),
       name: fileName,

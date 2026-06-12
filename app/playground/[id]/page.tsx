@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { useState, useCallback } from "react";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
@@ -44,7 +44,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import WebContainerPreview from "@/features/webcontainers/components/webcontainer-preveiw";
+import WebContainerPreview from "@/features/webcontainers/components/webcontainer-preview";
 import LoadingStep from "@/components/ui/loader";
 import { PlaygroundEditor } from "@/features/playground/components/playground-editor";
 import ToggleAI from "@/features/playground/components/toggle-ai";
@@ -55,7 +55,7 @@ import { useWebContainer } from "@/features/webcontainers/hooks/useWebContainer"
 import { SaveUpdatedCode } from "@/features/playground/actions";
 import { TemplateFolder } from "@/features/playground/types";
 import { findFilePath } from "@/features/playground/libs";
-import { ConfirmationDialog } from "@/features/playground/components/dialogs/conformation-dialog";
+import { ConfirmationDialog } from "@/features/playground/components/dialogs/confirmation-dialog";
 
 const MainPlaygroundPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -106,8 +106,6 @@ const MainPlaygroundPage: React.FC = () => {
     writeFileSync,
     // @ts-ignore
   } = useWebContainer({ templateData });
-
-  const lastSyncedContent = useRef<Map<string, string>>(new Map());
 
   // Set template data when playground loads
   React.useEffect(() => {
@@ -235,13 +233,10 @@ const MainPlaygroundPage: React.FC = () => {
           updatedTemplateData.items
         );
 
-        // Sync with WebContainer
+        // Sync with WebContainer (writeFileSync ensures the folder exists
+        // and writes via instance.fs.writeFile under the hood).
         if (writeFileSync) {
           await writeFileSync(filePath, fileToSave.content);
-          lastSyncedContent.current.set(fileToSave.id, fileToSave.content);
-          if (instance && instance.fs) {
-            await instance.fs.writeFile(filePath, fileToSave.content);
-          }
         }
 
         // Use saveTemplateData to persist changes

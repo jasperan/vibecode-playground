@@ -121,12 +121,20 @@ Visit `http://localhost:3000` in your browser.
 
 ```
 .
-├── app/                     # App Router-based pages & routes
-├── components/              # UI components
-├── editor/                 # Monaco, File Explorer, Terminal
+├── app/                     # App Router pages, layouts & API routes
+├── features/                # Feature-sliced domains
+│   ├── ai-chat/             # AI chat assistant
+│   ├── auth/                # Auth forms & logic
+│   ├── dashboard/           # User dashboard
+│   ├── home/                # Landing page
+│   ├── playground/          # Editor, file explorer, AI suggestions
+│   └── webcontainers/       # WebContainer lifecycle & terminal
+├── components/              # Shared ShadCN/UI components
+├── hooks/                   # Shared React hooks
 ├── lib/                     # Utility functions
+├── prisma/                  # Prisma schema (MongoDB)
 ├── public/                  # Static files (incl. thumbnail)
-├── utils/                   # AI helpers, WebContainer logic
+├── vibecode-starters/       # Project template files
 ├── .env.example             # Example env vars
 └── README.md
 ```

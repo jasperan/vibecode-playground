@@ -68,9 +68,8 @@ export const createPlayground = async (data:{
 
 
 export const getAllPlaygroundForUser = async ()=>{
-    const user = await currentUser();
     try {
-        const user  = await currentUser();
+        const user = await currentUser();
         const playground = await db.playground.findMany({
             where:{
                 userId:user?.id!

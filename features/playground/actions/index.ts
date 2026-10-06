@@ -5,6 +5,17 @@ import { TemplateFolder } from "../libs/path-to-json";
 import { revalidatePath } from "next/cache";
 
 
+// True only when the signed-in user owns the playground.
+const ownsPlayground = async (playgroundId: string): Promise<boolean> => {
+  const user = await currentUser();
+  if (!user?.id) return false;
+  const playground = await db.playground.findUnique({
+    where: { id: playgroundId },
+    select: { userId: true },
+  });
+  return playground?.userId === user.id;
+};
+
 // Toggle marked status for a problem
 export const toggleStarMarked = async (playgroundId: string, isChecked: boolean) => {
     const user = await currentUser();
@@ -95,6 +106,7 @@ export const getAllPlaygroundForUser = async ()=>{
 
 export const getPlaygroundById = async (id:string)=>{
     try {
+        if (!(await ownsPlayground(id))) return null;
         const playground = await db.playground.findUnique({
             where:{id},
             select:{
@@ -112,10 +124,8 @@ export const getPlaygroundById = async (id:string)=>{
 }
 
 export const SaveUpdatedCode = async (playgroundId: string, data: TemplateFolder) => {
-  const user = await currentUser();
-  if (!user) return null;
-
   try {
+    if (!(await ownsPlayground(playgroundId))) return null;
     const updatedPlayground = await db.templateFile.upsert({
       where: {
         playgroundId, // now allowed since playgroundId is unique
@@ -138,6 +148,7 @@ export const SaveUpdatedCode = async (playgroundId: string, data: TemplateFolder
 
 export const deleteProjectById = async (id:string)=>{
     try {
+        if (!(await ownsPlayground(id))) return;
         await db.playground.delete({
             where:{id}
         })
@@ -150,9 +161,11 @@ export const deleteProjectById = async (id:string)=>{
 
 export const editProjectById = async (id:string,data:{title:string , description:string})=>{
     try {
+        if (!(await ownsPlayground(id))) return;
+        const { title, description } = data;
         await db.playground.update({
             where:{id},
-            data:data
+            data:{ title, description }
         })
         revalidatePath("/dashboard")
     } catch (error) {
@@ -162,6 +175,8 @@ export const editProjectById = async (id:string,data:{title:string , description
 
 export const duplicateProjectById = async (id: string) => {
     try {
+        const user = await currentUser();
+        if (!user?.id || !(await ownsPlayground(id))) return;
         // Fetch the original playground data
         const originalPlayground = await db.playground.findUnique({
             where: { id },
@@ -180,7 +195,7 @@ export const duplicateProjectById = async (id: string) => {
                 title: `${originalPlayground.title} (Copy)`,
                 description: originalPlayground.description,
                 template: originalPlayground.template,
-                userId: originalPlayground.userId,
+                userId: user.id,
                 templateFiles: {
                   // @ts-ignore
                     create: originalPlayground.templateFiles.map((file) => ({

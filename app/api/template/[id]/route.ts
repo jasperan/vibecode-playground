@@ -1,4 +1,5 @@
 import { readTemplateStructureFromJson, saveTemplateStructureToJson } from "@/features/playground/libs/path-to-json";
+import { currentUser } from "@/features/auth/actions";
 import { db } from "@/lib/db";
 import { templatePaths } from "@/lib/template";
 import path from "path";
@@ -27,11 +28,16 @@ export async function GET(
     return Response.json({ error: "Missing playground ID" }, { status: 400 });
   }
 
+  const user = await currentUser();
+  if (!user?.id) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const playground = await db.playground.findUnique({
     where: { id },
   });
 
-  if (!playground) {
+  if (!playground || playground.userId !== user.id) {
     return Response.json({ error: "Playground not found" }, { status: 404 });
   }
 

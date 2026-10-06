@@ -25,6 +25,9 @@ export const toggleStarMarked = async (playgroundId: string, isChecked: boolean)
   }
 
   try {
+    if (!(await ownsPlayground(playgroundId))) {
+      return { success: false, error: "Playground not found" };
+    }
     if (isChecked) {
       await db.starMark.create({
         data: {
@@ -61,13 +64,16 @@ export const createPlayground = async (data:{
     const {template , title , description} = data;
 
     const user = await currentUser();
+    if (!user?.id) {
+        throw new Error("Authentication required");
+    }
     try {
         const playground = await db.playground.create({
             data:{
                 title:title,
                 description:description,
                 template:template,
-                userId:user?.id!
+                userId:user.id
             }
         })
 

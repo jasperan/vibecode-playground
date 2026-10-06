@@ -21,7 +21,7 @@ export const toggleStarMarked = async (playgroundId: string, isChecked: boolean)
     const user = await currentUser();
     const userId = user?.id;
   if (!userId) {
-    throw new Error("User ID is required");
+    return { success: false, error: "Authentication required" };
   }
 
   try {
@@ -87,15 +87,17 @@ export const createPlayground = async (data:{
 export const getAllPlaygroundForUser = async ()=>{
     try {
         const user = await currentUser();
+        // An undefined userId would make Prisma drop the filter and return every playground.
+        if (!user?.id) return [];
         const playground = await db.playground.findMany({
             where:{
-                userId:user?.id!
+                userId:user.id
             },
             include:{
                 user:true,
                 Starmark:{
                     where:{
-                        userId:user?.id!
+                        userId:user.id
                     },
                     select:{
                         isMarked:true

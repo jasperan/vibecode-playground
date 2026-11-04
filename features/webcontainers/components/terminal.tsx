@@ -423,17 +423,12 @@ const TerminalComponent = forwardRef<TerminalRef, TerminalProps>(({
     <div className={cn("flex flex-col h-full bg-background border rounded-lg overflow-hidden", className)}>
       {/* Terminal Header */}
       <div className="flex items-center justify-between px-3 py-2 border-b bg-muted/50">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          </div>
-          <span className="text-sm font-medium">WebContainer Terminal</span>
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-xs text-muted-foreground">terminal</span>
           {isConnected && (
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-xs text-muted-foreground">Connected</span>
+            <div className="flex items-center gap-1.5">
+              <div className="size-1.5 rounded-full bg-emerald-600"></div>
+              <span className="font-mono text-[11px] text-muted-foreground">connected</span>
             </div>
           )}
         </div>

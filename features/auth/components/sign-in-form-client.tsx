@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Chrome, Github } from "lucide-react";
+import { Chrome, Github, Laptop } from "lucide-react";
 import { signIn } from "@/auth";
 
 async function handleGoogleSignIn() {
@@ -24,26 +24,22 @@ async function handleGithubSignIn() {
 const SignInFormClient = () => {
   return (
     <Card className="w-full max-w-md">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">
-          Sign In
-        </CardTitle>
-        <CardDescription className="text-center">
-          Choose your preferred sign-in method
-        </CardDescription>
+      <CardHeader>
+        <CardTitle className="text-xl">Sign in</CardTitle>
+        <CardDescription>Choose how you want to continue.</CardDescription>
       </CardHeader>
 
-      <CardContent className="grid gap-4">
+      <CardContent className="grid gap-2">
         <form action={handleGoogleSignIn}>
-          <Button type="submit" variant={"outline"} className="w-full">
-            <Chrome className="mr-2 h-4 w-4" />
-            <span>Sign in with google</span>
+          <Button type="submit" variant={"outline"} className="w-full justify-start gap-2">
+            <Chrome className="size-4 text-muted-foreground" />
+            <span>Continue with Google</span>
           </Button>
         </form>
         <form action={handleGithubSignIn}>
-          <Button type="submit" variant={"outline"} className="w-full">
-            <Github className="mr-2 h-4 w-4" />
-            <span>Sign in with github</span>
+          <Button type="submit" variant={"outline"} className="w-full justify-start gap-2">
+            <Github className="size-4 text-muted-foreground" />
+            <span>Continue with GitHub</span>
           </Button>
         </form>
         <form
@@ -52,22 +48,22 @@ const SignInFormClient = () => {
             await signIn("local");
           }}
         >
-          <Button type="submit" variant={"outline"} className="w-full">
-            <span className="mr-2 h-4 w-4">💻</span>
-            <span>Continue as Local Developer</span>
+          <Button type="submit" variant={"outline"} className="w-full justify-start gap-2">
+            <Laptop className="size-4 text-muted-foreground" />
+            <span>Continue as local developer</span>
           </Button>
         </form>
       </CardContent>
 
       <CardFooter>
-        <p className="text-sm text-center text-gray-500 dark:text-gray-400 w-full">
-          By signing in, you agree to our{" "}
-          <a href="#" className="underline hover:text-primary">
-            Terms of Service
+        <p className="w-full text-xs leading-relaxed text-muted-foreground">
+          By signing in you agree to the{" "}
+          <a href="#" className="underline underline-offset-2 hover:text-foreground">
+            terms of service
           </a>{" "}
           and{" "}
-          <a href="#" className="underline hover:text-primary">
-            Privacy Policy
+          <a href="#" className="underline underline-offset-2 hover:text-foreground">
+            privacy policy
           </a>
           .
         </p>

@@ -1,14 +1,12 @@
 import SignInFormClient from '@/features/auth/components/sign-in-form-client'
-import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
 
 const SignInPage = () => {
   return (
     <>
-        <Image src={"/login.svg"} alt="Login-Image" height={300} 
-        width={300}
-        className='m-6 object-cover'
-        />
+        <Link href="/" className="font-mono text-sm text-muted-foreground transition-colors hover:text-foreground">
+            vibecode editor
+        </Link>
         <SignInFormClient/>
     </>
   )

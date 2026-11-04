@@ -1,34 +1,43 @@
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ArrowUpRight } from "lucide-react";
-import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-export default function Home() {
-   
-  return (
-    <div className=" z-20 flex flex-col items-center justify-start min-h-screen py-2 mt-10">
-      
-      <div className="flex flex-col justify-center items-center my-5">
-      <Image src={"/hero.svg"} alt="Hero-Section" height={500}  width={500}/>
-      
-      <h1 className=" z-20 text-6xl mt-5 font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-rose-500 via-red-500 to-pink-500 dark:from-rose-400 dark:via-red-400 dark:to-pink-400 tracking-tight leading-[1.3] ">
-        Vibe Code With with Intelligence
-      </h1>
-      </div>
-     
+import { HeroPreview } from "@/features/home/hero-preview";
 
-      <p className="mt-2 text-lg text-center text-gray-600 dark:text-gray-400 px-5 py-10 max-w-2xl">
-        VibeCode Editor is a powerful and intelligent code editor that enhances
-        your coding experience with advanced features and seamless integration.
-        It is designed to help you write, debug, and optimize your code
-        efficiently.
-      </p>
-      <Link href={"/dashboard"}>
-        <Button variant={"brand"} className="mb-4" size={"lg"}>
-          Get Started
-          <ArrowUpRight className="w-3.5 h-3.5" />
-        </Button>
-      </Link>
+export default function Home() {
+  return (
+    <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-[1280px] flex-col justify-center px-6 pb-16">
+      <div className="grid items-center gap-16 py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:py-0">
+        <div>
+          <p className="font-mono text-xs text-muted-foreground">
+            Browser IDE &middot; React, Next.js, Vue, Express
+          </p>
+
+          <h1 className="mt-4 max-w-[17ch] text-5xl leading-[1.05] md:text-6xl">
+            Describe the app. Watch it get written.
+          </h1>
+
+          <p className="mt-6 max-w-[46ch] text-lg leading-relaxed text-muted-foreground">
+            Say what you want in plain words. The files appear in the explorer,
+            the code opens in the editor, and the app runs in the preview next
+            to it. No setup, no terminal to configure.
+          </p>
+
+          <div className="mt-8 flex items-center gap-4">
+            <Link href="/dashboard">
+              <Button size="lg" className="h-12 gap-2 px-6">
+                Get started
+                <ArrowRight className="size-4" />
+              </Button>
+            </Link>
+          </div>
+
+          <p className="mt-8 border-t pt-4 font-mono text-xs text-muted-foreground">
+            Six templates &middot; runs in the browser &middot; local account, no email
+          </p>
+        </div>
+
+        <HeroPreview />
+      </div>
     </div>
   );
 }

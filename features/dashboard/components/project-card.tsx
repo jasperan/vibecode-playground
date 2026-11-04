@@ -9,10 +9,8 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  // Format dates for display
   const createdAtFormatted = formatDistanceToNow(new Date(project.createdAt), { addSuffix: true })
 
-  // Get template icon based on template type
   const getTemplateIcon = (template: string) => {
     switch (template.toUpperCase()) {
       case "REACT":
@@ -27,57 +25,55 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   }
 
   return (
-    <div className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="overflow-hidden rounded-xl border bg-card transition-colors hover:border-foreground/20">
       <div className="p-6">
-        <div className="flex justify-between items-start mb-4">
+        <div className="mb-4 flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div
-              className="relative w-12 h-12 flex items-center justify-center rounded-full"
-              style={{ backgroundColor: "#61DAFB15" }}
-            >
+            <div className="flex size-10 items-center justify-center rounded-md border bg-background">
               <Image
                 src={getTemplateIcon(project.template) || "/placeholder.svg"}
-                alt={project.template}
-                width={28}
-                height={28}
+                alt=""
+                width={22}
+                height={22}
                 className="object-contain"
               />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900">{project.title}</h3>
-              <Badge variant="outline" className="bg-[#E93F3F15] text-[#E93F3F] border-[#E93F3F] mt-1">
+              <h3 className="text-lg font-medium">{project.title}</h3>
+              <Badge
+                variant="outline"
+                className="mt-1 rounded-sm font-mono text-[11px] font-normal text-muted-foreground"
+              >
                 {project.template}
               </Badge>
             </div>
           </div>
 
-          <div className="flex items-center">
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
-              <Image
-                src={project.user.image || "/placeholder.svg"}
-                alt={project.user.name}
-                width={40}
-                height={40}
-                className="object-cover"
-              />
-            </div>
+          <div className="size-9 overflow-hidden rounded-full">
+            <Image
+              src={project.user.image || "/placeholder.svg"}
+              alt={project.user.name}
+              width={36}
+              height={36}
+              className="size-9 object-cover"
+            />
           </div>
         </div>
 
-        <p className="text-gray-600 mb-4 line-clamp-2">{project.description}</p>
+        <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">{project.description}</p>
 
-        <div className="flex flex-col gap-2 text-sm text-gray-500">
+        <div className="flex flex-col gap-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
-            <User size={14} />
+            <User className="size-3.5" />
             <span>{project.user.name}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar size={14} />
+            <Calendar className="size-3.5" />
             <span>Created {createdAtFormatted}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Code size={14} />
-            <span>ID: {project.id.substring(0, 8)}...</span>
+            <Code className="size-3.5" />
+            <span className="font-mono">{project.id.substring(0, 8)}</span>
           </div>
         </div>
       </div>

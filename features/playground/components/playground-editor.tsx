@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useCallback } from "react"
 import Editor, { type Monaco } from "@monaco-editor/react"
+import { Loader2 } from "lucide-react"
 import { configureMonaco, defaultEditorOptions, getEditorLanguage } from "@/features/playground/libs/editor-config"
 import type { TemplateFile } from "@/features/playground/libs/path-to-json"
 
@@ -522,17 +523,17 @@ export const PlaygroundEditor = ({
     <div className="h-full relative">
       {/* Loading indicator */}
       {suggestionLoading && (
-        <div className="absolute top-2 right-2 z-10 bg-red-100 dark:bg-red-900 px-2 py-1 rounded text-xs text-red-700 dark:text-red-300 flex items-center gap-1">
-          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-          AI thinking...
+        <div className="absolute right-3 top-3 z-10 flex items-center gap-2 rounded-md border bg-card px-2 py-1 font-mono text-[11px] text-muted-foreground">
+          <Loader2 className="size-3 animate-spin" />
+          Generating
         </div>
       )}
 
       {/* Active suggestion indicator */}
       {currentSuggestionRef.current && !suggestionLoading && (
-        <div className="absolute top-2 right-2 z-10 bg-green-100 dark:bg-green-900 px-2 py-1 rounded text-xs text-green-700 dark:text-green-300 flex items-center gap-1">
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          Press Tab to accept
+        <div className="absolute right-3 top-3 z-10 flex items-center gap-2 rounded-md border bg-card px-2 py-1 font-mono text-[11px] text-muted-foreground">
+          <kbd className="rounded-sm border bg-muted px-1 py-0.5 text-[10px] text-foreground">Tab</kbd>
+          accept suggestion
         </div>
       )}
 

@@ -175,7 +175,7 @@ export default function ProjectTable({
 
   return (
     <>
-      <div className="border rounded-lg overflow-hidden">
+      <div className="overflow-hidden rounded-lg border bg-card">
         <Table>
           <TableHeader>
             <TableRow>
@@ -183,7 +183,7 @@ export default function ProjectTable({
               <TableHead>Template</TableHead>
               <TableHead>Created</TableHead>
               <TableHead>User</TableHead>
-              <TableHead className="w-[50px]">Actions</TableHead>
+              <TableHead className="w-[50px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -195,9 +195,9 @@ export default function ProjectTable({
                       href={`/playground/${project.id}`}
                       className="hover:underline"
                     >
-                      <span className="font-semibold">{project.title}</span>
+                      <span className="font-medium">{project.title}</span>
                     </Link>
-                    <span className="text-sm text-gray-500 line-clamp-1">
+                    <span className="text-sm text-muted-foreground line-clamp-1">
                       {project.description}
                     </span>
                   </div>
@@ -205,22 +205,22 @@ export default function ProjectTable({
                 <TableCell>
                   <Badge
                     variant="outline"
-                    className="bg-[#E93F3F15] text-[#E93F3F] border-[#E93F3F]"
+                    className="rounded-sm font-mono text-[11px] font-normal text-muted-foreground"
                   >
                     {project.template}
                   </Badge>
                 </TableCell>
-                <TableCell>
+                <TableCell className="font-mono text-xs text-muted-foreground">
                   {format(new Date(project.createdAt), "MMM d, yyyy")}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full overflow-hidden">
+                    <div className="size-7 overflow-hidden rounded-full">
                       <Image
                         src={project.user.image || "/placeholder.svg"}
                         alt={project.user.name}
-                        width={32}
-                        height={32}
+                        width={28}
+                        height={28}
                         className="object-cover"
                       />
                     </div>
@@ -248,7 +248,7 @@ export default function ProjectTable({
                           className="flex items-center"
                         >
                           <Eye className="h-4 w-4 mr-2" />
-                          Open Project
+                          Open project
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
@@ -258,7 +258,7 @@ export default function ProjectTable({
                           className="flex items-center"
                         >
                           <ExternalLink className="h-4 w-4 mr-2" />
-                          Open in New Tab
+                          Open in new tab
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
@@ -266,7 +266,7 @@ export default function ProjectTable({
                         onClick={() => handleEditClick(project)}
                       >
                         <Edit3 className="h-4 w-4 mr-2" />
-                        Edit Project
+                        Edit project
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleDuplicateProject(project)}

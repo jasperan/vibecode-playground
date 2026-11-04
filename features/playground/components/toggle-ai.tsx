@@ -96,11 +96,13 @@ const ToggleAI: React.FC<ToggleAIProps> = ({
               <Bot className="h-4 w-4" />
             )}
             <span>AI</span>
-            {isEnabled ? (
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            ) : (
-              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-            )}
+            <span
+              aria-hidden="true"
+              className={cn(
+                "size-1.5 rounded-full",
+                isEnabled ? "bg-emerald-600" : "bg-muted-foreground/50"
+              )}
+            />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-72">

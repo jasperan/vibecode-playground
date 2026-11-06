@@ -43,6 +43,13 @@ if (providers.length === 0) {
     );
 }
 
+// Fail closed in production: when AUTH_SECRET is unset the secret stays undefined and
+// Auth.js refuses to sign or verify sessions. The public fallback is development-only.
+const secret =
+    process.env.AUTH_SECRET ||
+    (process.env.NODE_ENV !== "production" ? "local-development-secret" : undefined);
+
 export default {
     providers,
+    secret,
 } satisfies NextAuthConfig;
